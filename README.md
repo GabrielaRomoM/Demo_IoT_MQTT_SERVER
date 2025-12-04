@@ -95,9 +95,11 @@ sudo systemctl start mosquitto
 After doing all the necessary configurations, we make a test of the server (before using it with the ESP32). Using two terminals:
 
 Terminal 1:
+
 ![Terminal 1](./img/LED_(4).png)
 
 Terminal 2:
+
 ![Terminal 2](./img/LED_(5).png)
 
 ## Part 3: Configuration of Index.html
@@ -149,12 +151,12 @@ sudo nano /var/www/html/index.html
       const brokerHost = "IP_PUBLICA_SERVER"; // CAMBIAR  LA IP
       const brokerPort = 9001;
       const topic = "esp32/led";
-      const username = "esp32";
-      const password = "12345678";
+      const username = "esp32aby";
+      const password = "gaby1405";
 
       const colorMap = {
-        red: "#ff0000",
-        green: "#00ff00",
+        pink: "#ff1493",
+        purple: "#800080",
         blue: "#0000ff"
       };
 
@@ -204,165 +206,77 @@ sudo nano /var/www/html/index.html
 </html>
 ```
 
-![Untitled](./img/27.png)
+With that we have the page- We can visualize it using ```http://52.15.214.71/index.html ```
 
-* Ir a ```http://IP_PUBLICA_SERVER/index.html ```
-* Debería mostrar la página con estado "Conectando a MQTT..."
+![WEB](./img/LED_(3).png)
 
-## Parte 4: Configuración del Proyecto ESP32
+## Part 4: ESP32 Configuration
 
-#### 4.1 Prerequisitos
+#### 4.1 Prerequisites
 
-- **ESP-IDF v5.5** instalado
+- **ESP-IDF v5.5** installed
 - **ESP32-C6-DevKitC-1 v1.2**
-- **Cable USB-C**
+- **USB-C Cable**
 
-#### 4.2 Estructura del Proyecto
+#### 4.2 Estructure
 
-El proyecto ya está configurado con los archivos necesarios:
+The project has the following files:
 
 ```
 main/
-├── CMakeLists.txt           # Configuración de dependencias
-├── idf_component.yml        # Dependencia led_strip
-├── Kconfig.projbuild        # Configuración del proyecto
-└── station_example_main.c   # Código principal
+├── CMakeLists.txt           # Dependencies configuration
+├── idf_component.yml        # Dependency led_strip
+├── Kconfig.projbuild        # Project configuration
+└── station_example_main.c   # Main code
 ```
 
-#### 4.3 Configurar Variables en el Código
 
-Editar `main/station_example_main.c` y cambiar las siguientes líneas:
+#### 4.4 Build and Flash
 
-```c
-// Configuración WiFi - CAMBIAR POR TUS DATOS
-#define EXAMPLE_ESP_WIFI_SSID      "RED_WIFI"
-#define EXAMPLE_ESP_WIFI_PASS      "PASSWORD_WIFI"
+On Visual Studio using `ctrl + shift + P` we can compile, build, flash a set a monitor on ESP32 to run all our project:
 
-// Configuración MQTT - CAMBIAR POR TU IP
-#define MQTT_BROKER_URL "mqtt://_IP_PUBLICA_SERVER:1883"
-```
+![esp32RUN](./img/LED_(6).png)
 
-⚠️ **IMPORTANTE**: Reemplazar:
-- `RED_WIFI`: Nombre de tu red WiFi
-- `PASSWORD_WIFI`: Contraseña de tu red WiFi  
-- `IP_PUBLICA_SERVER`: IP pública de tu servidor AWS EC2
+## Results
 
-#### 4.4 Compilar y Flashear
+**Serial Monitor** 
 
-```bash
-# Configurar target para ESP32-C6
-idf.py set-target esp32c6
+![SerialMonitor](./img/LED_(8).png)
 
-# Configurar proyecto (opcional)
-idf.py menuconfig
+** Physical LED**
 
-# Compilar
-idf.py build
+![LED](./img/LED.jpg)
 
-# Conectar ESP32 por USB y flashear
-idf.py flash
-
-# Monitor serial para ver logs
-idf.py monitor
-```
-
-#### 4.5 Configuración de Red (opcional)
-
-Si prefieres configurar WiFi mediante menuconfig:
-
-```bash
-idf.py menuconfig
-```
-
-Navegar a: **Example Configuration** y establecer:
-- WiFi SSID
-- WiFi Password
+at the same time on the web page we can see: 
+- **Status**: "Conectado a MQTT"
+- **Circle**: Changes its color in sincronization with the physical one.
+- **Counter**: Increments with each message
+- **Current color**: It shows "pink", "purple", "blue"
 
 ---
 
-## 🧪 Verificación del Sistema
-
-### 1. Verificar ESP32
-
-**En el monitor serial (`idf.py monitor`) deberías ver:**
-```
-I (2450) ESP32_MQTT_LED: Connected to WiFi SSID:RED_WIFI
-I (2460) ESP32_MQTT_LED: Got IP: 192.168.x.x
-I (2470) ESP32_MQTT_LED: MQTT Broker: mqtt://IP_PUBLICA_SERVER:1883
-I (2890) ESP32_MQTT_LED: MQTT Connected
-I (2900) LED: Color: ROJO REAL - LED RGB encendido por 3 segundos
-I (5910) LED: Color: VERDE REAL - LED RGB encendido por 3 segundos
-I (8920) LED: Color: AZUL REAL - LED RGB encendido por 3 segundos
-```
-
-**LED RGB físico debe:**
-- Cambiar colores cada 3 segundos: Rojo → Verde → Azul
-- Mostrar colores puros y brillantes
-
-### 2. Verificar Servidor MQTT
-
-```bash
-# En el servidor AWS, monitorear mensajes en tiempo real
-mosquitto_sub -h localhost -t esp32/led -u esp32 -P 12345678
-```
-
-**Deberías ver:**
-```
-red
-green
-blue
-red
-green
-blue
-...
-```
-
-### 3. Verificar Página Web
-
-- Ir a `http://TU_IP_PUBLICA/index.html`
-- **Estado**: "Conectado a MQTT" (verde)
-- **Círculo**: Debe cambiar de color sincronizado con el ESP32
-- **Contador**: Debe incrementar con cada mensaje
-- **Color actual**: Debe mostrar "red", "green", "blue"
-
----
-
-
-
-## 📊 Diagrama de Flujo del Sistema
+## System's flow diagram
 
 ```
-Inicio
+Start
   ↓
-Inicializar NVS
+NVS Initialization
   ↓
-Conectar WiFi
+Wifi Connection
   ↓
-Inicializar LED RGB
+LED Initialization
   ↓
-Conectar MQTT
+MQTT Connection
   ↓
-Crear Tarea LED
+LED Task Creation
   ↓
-Loop infinito:
-  ├─ Cambiar color LED (rojo/verde/azul)
-  ├─ Publicar color por MQTT
-  ├─ Esperar 3 segundos
-  ├─ Apagar LED brevemente
-  └─ Repetir con siguiente color
+Infinite Loop:
+  ├─ Change LED Color (pink, purple,blue)
+  ├─ Publish color through MQTT
+  ├─ Wait 3 seconds
+  ├─ LED Turn Off for a moment
+  └─ Repeat with the next color
 ```
-
----
-
-
-
-### Servidor
-- **Cloud Provider**: AWS EC2
-- **OS**: Ubuntu 22.04 LTS
-- **Broker MQTT**: Mosquitto
-- **Web Server**: Apache2
-- **Puertos**: 22 (SSH), 80 (HTTP), 1883 (MQTT), 9001 (WebSocket)
-
 ---
 
 
