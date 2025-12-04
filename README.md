@@ -35,7 +35,7 @@ ESP32-C6 ──(WiFi)──> Internet ──> AWS EC2 Server
 
 First of all was necessary creat an account on AWS Console ([AWS Console](https://aws.amazon.com/console/)). Then, it was created an instance (EC2) following the guide provide by the teacher. 
 
-[](./img/LED_(1).png)
+![EC2](./img/LED_(1).png)
 
 ### 1. Crear Instancia EC2
 
