@@ -206,7 +206,7 @@ sudo nano /var/www/html/index.html
 </html>
 ```
 
-With that we have the page- We can visualize it using ```http://52.15.214.71/index.html ```
+With that we have the web page. We can visualize it using ```http://52.15.214.71/index.html ```
 
 ![WEB](./img/LED_(3).png)
 
