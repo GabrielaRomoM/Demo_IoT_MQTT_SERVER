@@ -32,10 +32,10 @@ static led_strip_handle_t led_strip = NULL;
 static void led_set_color(const char* color) {
     ESP_LOGI("LED", "Encendiendo LED RGB color: %s", color);
     
-    if (strcmp(color, "red") == 0) {
-        ESP_ERROR_CHECK(led_strip_set_pixel(led_strip, 0, 255, 0, 0)); // RGB: Rojo puro
-    } else if (strcmp(color, "green") == 0) {
-        ESP_ERROR_CHECK(led_strip_set_pixel(led_strip, 0, 0, 255, 0)); // RGB: Verde puro
+    if (strcmp(color, "pink") == 0) {
+        ESP_ERROR_CHECK(led_strip_set_pixel(led_strip, 0, 255, 20, 147)); // RGB: Rosa
+    } else if (strcmp(color, "purple") == 0) {
+        ESP_ERROR_CHECK(led_strip_set_pixel(led_strip, 0, 128, 0, 128)); // RGB: Morado
     } else if (strcmp(color, "blue") == 0) {
         ESP_ERROR_CHECK(led_strip_set_pixel(led_strip, 0, 0, 0, 255)); // RGB: Azul puro
     }
@@ -48,14 +48,14 @@ static void led_task(void *pvParameters) {
     while (1) {
         switch (color % 3) {
             case 0:
-                led_set_color("red"); // Rojo real
-                if (mqtt_client) esp_mqtt_client_publish(mqtt_client, "esp32/led", "red", 0, 1, 0);
-                ESP_LOGI("LED", "Color: ROJO REAL - LED RGB encendido por 3 segundos");
+                led_set_color("pink"); // Rosa
+                if (mqtt_client) esp_mqtt_client_publish(mqtt_client, "esp32/led", "pink", 0, 1, 0);
+                ESP_LOGI("LED", "Color: ROSA - LED RGB encendido por 3 segundos");
                 break;
             case 1:
-                led_set_color("green"); // Verde real
-                if (mqtt_client) esp_mqtt_client_publish(mqtt_client, "esp32/led", "green", 0, 1, 0);
-                ESP_LOGI("LED", "Color: VERDE REAL - LED RGB encendido por 3 segundos");
+                led_set_color("purple"); // Morado real
+                if (mqtt_client) esp_mqtt_client_publish(mqtt_client, "esp32/led", "purple", 0, 1, 0);
+                ESP_LOGI("LED", "Color: MORADO - LED RGB encendido por 3 segundos");
                 break;
             case 2:
                 led_set_color("blue"); // Azul real
@@ -92,9 +92,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
 static void mqtt_app_start(void) {
     esp_mqtt_client_config_t mqtt_cfg = {
-        .broker.address.uri = "mqtt://8.8.8.8:1883",
-        .credentials.username = "esp32",
-        .credentials.authentication.password = "12345678",
+        .broker.address.uri = "mqtt://52.15.214.71:1883",
+        .credentials.username = "esp32aby",
+        .credentials.authentication.password = "gaby1405",
     };
     mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(mqtt_client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
@@ -106,8 +106,8 @@ static void mqtt_app_start(void) {
    If you'd rather not, just change the below entries to strings with
    the config you want - ie #define EXAMPLE_WIFI_SSID "mywifissid"
 */
-#define EXAMPLE_ESP_WIFI_SSID      "pepito"
-#define EXAMPLE_ESP_WIFI_PASS      "12345678"
+#define EXAMPLE_ESP_WIFI_SSID      "Gabs"
+#define EXAMPLE_ESP_WIFI_PASS      "gaby1405"
 #define EXAMPLE_ESP_MAXIMUM_RETRY  CONFIG_ESP_MAXIMUM_RETRY
 
 #if CONFIG_ESP_STATION_EXAMPLE_WPA3_SAE_PWE_HUNT_AND_PECK
