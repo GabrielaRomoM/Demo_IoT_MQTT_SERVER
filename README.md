@@ -1,42 +1,39 @@
-# Proyecto IoT: ESP32 LED RGB con MQTT y Servidor Web
-**Autores:**   Edward Fabian Goyeneche Velandia / Juan Sebastian Giraldo Duque  
+# IoT Project: ESP32 LED with MQTT and Web Server
 
-**Nombre de la Práctica:** Proyecto IoT: ESP32 LED RGB con MQTT y Servidor Web  
+**Course:**  Desarrollo de Sistemas IoT (IoT systems development)  
 
-**Curso:**  Desarrollo de Sistemas IoT 
-
-**Departamento:**  Departamento de Ingeniería Electrica, Electronica y Computacion  
-
-**Universidad:**  Universida Nacional de Colombia - Sede Manizales 
+**University:**  National University of Colombia  
 
 ---
-Esta es la guia para realizar la demo de  un sistema Iot basico donde un ESP32-C6 controla un LED RGB (LED interno) que cambia de colores cada 3 segundos, envía la información por MQTT a un servidor en AWS EC2, y una página web muestra los cambios de color en tiempo real.
+This repo contains a basic IoT sistem where a ESP32-C6 controls a LED (Intern LED) that has color changes every 3 seconds, sends the info trough MQTT to an EC2 AWS server, and a web page shows the color changing on real time.
 
 
-##  Componentes de la Demo
+##  Components
 
-- **ESP32-C6-DevKitC-1 v1.2** con LED RGB WS2812 integrado
-- **Servidor AWS EC2** con Ubuntu
-- **Broker MQTT Mosquitto** con soporte WebSocket
-- **Servidor Web Apache** 
-- **Página Web** con visualización en tiempo real
-
-##  Arquitectura de la Demo
+- **ESP32-C6-DevKitC-1 v1.2** with LED RGB WS2812
+- **AWS EC2 server** with Ubuntu
+- **Broker MQTT Mosquitto** with WebSocket support
+- **Apache web server** 
+- **Wep page** with real time visualization
+  
+##  Architecture
 
 ```
 ESP32-C6 ──(WiFi)──> Internet ──> AWS EC2 Server
     │                                │
-    └─ LED RGB WS2812               ├─ Mosquitto MQTT (puerto 1883)
-                                    ├─ WebSocket MQTT (puerto 9001)
-                                    └─ Apache Web (puerto 80)
-                                           └─ Página Web
+    └─ LED RGB WS2812               ├─ Mosquitto MQTT (1883 port)
+                                    ├─ WebSocket MQTT (9001 port)
+                                    └─ Apache Web (80 port)
+                                           └─ Web Page
 ```
 
 ---
 
-#  Guía  Paso a Paso
+# Application
 
-## Parte 1: Configuración del Servidor AWS EC2
+## Part 1: AWS EC2 server
+
+First of all was necessary creat an account on AWS Console ([AWS Console](https://aws.amazon.com/console/)). Then, it was created an instance (EC2) following the guide provide by the teacher.
 
 ### 1. Crear Instancia EC2
 
