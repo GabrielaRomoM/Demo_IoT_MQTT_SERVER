@@ -1,4 +1,4 @@
-# IoT Project: ESP32 LED with MQTT and Web Server
+# IoT Application: ESP32 LED with MQTT and Web Server
 
 **Course:**  Desarrollo de Sistemas IoT (IoT systems development)  
 
