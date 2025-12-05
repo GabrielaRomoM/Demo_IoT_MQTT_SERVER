@@ -234,9 +234,9 @@ main/
 #### 4.4 Build and Flash
 
 On Visual Studio using `ctrl + shift + P` we can compile, build, flash a set a monitor on ESP32 to run all our project, using the following instructions:
--  ESP-IDF: Select Port to Use(COM,tty, usbserial)
--  ESP-IDF: Set Espressif Device target
--  ESP-IDF: Build, Flash and Start a Monitor on Your Devie
+1. Select port where is connected the device -> `ESP-IDF: Select Port to Use(COM,tty, usbserial)`.
+2. Select Device Target used (ESP32C6) -> `ESP-IDF: Set Espressif Device target`.
+3. Buid and Flash the project -> `ESP-IDF: Build, Flash and Start a Monitor on Your Device`.
 
 ![esp32RUN](./img/LED_(6).png)
 
